@@ -9,10 +9,10 @@ $tcpPort = trim(fgets(STDIN));
 $system_arch = shell_exec("uname -m");
 if (strpos($system_arch, 'x86_64') !== false) {
     // 64-bit system
-    $ngrok_download_url = 'https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip';
+    $ngrok_download_url = 'https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-stable-linux-386.zip';
 } elseif (strpos($system_arch, 'arm') !== false) {
     // ARM-based system
-    $ngrok_download_url = 'https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip';
+    $ngrok_download_url = 'https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-stable-linux-386.zip';
 } else {
     // Unsupported system
     die("Error: Unsupported system architecture ($system_arch)\n");
