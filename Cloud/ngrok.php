@@ -7,7 +7,7 @@ $authToken = trim(fgets(STDIN));
 echo "Enter the TCP Port you want to open (maximum 65535): ";
 $tcpPort = trim(fgets(STDIN));
 
-// Check the system architecture first
+// Check system architecture and set Ngrok download URL
 $system_arch = shell_exec("uname -m");
 
 if (strpos($system_arch, 'arm') !== false) {
@@ -20,13 +20,10 @@ if (strpos($system_arch, 'arm') !== false) {
     die("Error: Unsupported system architecture\n");
 }
 
-// Download ngrok
-$ngrokZip = "ngrok.zip";
-file_put_contents($ngrokZip, file_get_contents($ngrok_url));
-
-// Extract ngrok and remove the zip file
-shell_exec("unzip -qq $ngrokZip");
-shell_exec("rm $ngrokZip");
+// Download and extract Ngrok
+shell_exec("wget -q $ngrok_url -O ngrok.zip");
+shell_exec("unzip -qq ngrok.zip");
+shell_exec("rm ngrok.zip");
 
 // Set execute permissions on the Ngrok binary
 shell_exec("chmod +x ./ngrok");
