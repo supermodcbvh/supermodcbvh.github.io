@@ -1,3 +1,4 @@
+<?php
 // Determine system architecture
 $system_arch = shell_exec("uname -m");
 
