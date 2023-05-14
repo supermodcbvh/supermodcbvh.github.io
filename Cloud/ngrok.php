@@ -17,6 +17,5 @@ system("wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip");
 system("yes | unzip ngrok-stable-linux-arm.zip");
 
 // Start Ngrok
-system("./ngrok authtoken $token");
-system("./ngrok tcp $port");
+system("./ngrok --authtoken=$token tcp $port");
 ?>
