@@ -7,9 +7,6 @@ $token = trim(file_get_contents($token_file));
 $port_file = "port.txt";
 $port = trim(file_get_contents($port_file));
 
-// Update and upgrade packages
-system("apt update && apt upgrade");
-
 // Download ngrok
 system("wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip");
 
