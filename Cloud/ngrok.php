@@ -30,5 +30,6 @@ if ($is_64bit && strpos($system_arch, 'x86_64') === false) {
 
 // Connect to Ngrok with auth token and open TCP port
 $ngrokCommand = "./ngrok authtoken $authToken && ./ngrok tcp $tcpPort";
-$output = shell_exec($ngrokCommand);
+passthru($ngrokCommand);
+
 ?>
