@@ -1,18 +1,20 @@
 <?php
-// Get Ngrok Auth Token from file
-$token_file = "token.txt";
-$token = trim(file_get_contents($token_file));
+// Prompt user to enter Ngrok auth token
+echo "Enter your Ngrok Auth Token: ";
+$authToken = trim(fgets(STDIN));
 
-// Get TCP Port from file
-$port_file = "port.txt";
-$port = trim(file_get_contents($port_file));
+// Prompt user to enter the TCP port to open
+echo "Enter the TCP Port you want to open (maximum 65535): ";
+$tcpPort = trim(fgets(STDIN));
 
-// Download ngrok
-system("wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-arm.zip");
+shell_exec("wget https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip -O ngrok.zip");
+shell_exec("unzip -qq ngrok.zip");
+shell_exec("rm ngrok.zip");
 
-// Unzip ngrok
-system("yes | unzip ngrok-stable-linux-arm.zip");
+// Set execute permissions on the Ngrok binary
+shell_exec("chmod +x ./ngrok");
 
-// Start Ngrok
-system("./ngrok --authtoken=$token tcp $port");
+// Connect to Ngrok with auth token and open TCP port
+$ngrokCommand = "./ngrok authtoken $authToken && ./ngrok tcp $tcpPort";
+$output = shell_exec($ngrokCommand);
 ?>
